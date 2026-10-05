@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 
 // ✅ Level 1 Upgrade: Auto-Design CRM + Instant Doctor Email Alert URL
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyjm49wiA8KW8Gv8KpQwG-jnapmBLe0hi-Ub6TqpsCiP2MEqtzEpEu2NsUhL5yjO1t0/exec";
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbz1hbYz6vhjSN3xgV2gWazSE-_OBvgLhMLJxKmLaie0yB6YqVEPx3W5LZfI0sK7FojJ/exec";
 
 app.get('/', (req, res) => {
   res.send(`
