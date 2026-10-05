@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// ✅ Auto-Design Google Sheet Webhook URL
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxSn8SIkF4InKcvr7UJaas3HLq4nRpghwm0eiuDnJ_Y5CVD9ChqHvZ_aRxXIvlboBQN/exec";
+// ✅ Aapka Naya Active Google Sheet Webhook URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxJNjlfz3n3OEbQ2iz49ICtId02Wc2McWj_GsgKVyo312XnJQyddj1hz4HW0fN3Iw/exec";
 
 app.get('/', (req, res) => {
   res.send(`
@@ -82,6 +82,7 @@ app.get('/', (req, res) => {
             document.getElementById('name').value = "";
             document.getElementById('number').value = "";
 
+            // ⏱️ 4 Second baad green box apne aap band ho jayega!
             setTimeout(() => {
               status.style.display = "none";
             }, 4000);
@@ -108,7 +109,7 @@ app.post('/api/book-appointment', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         number: number,
-        callType: name,
+        callType: name, // ✅ Sirf saaf Patient Name jayega
         message: service + " (" + slot + ")"
       })
     });
