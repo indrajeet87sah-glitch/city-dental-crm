@@ -107,7 +107,7 @@ app.post('/api/book-appointment', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         number: number,
-        callType: "Patient: " + name,
+        callType: name,
         message: service + " (" + slot + ")"
       })
     });
