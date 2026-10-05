@@ -84,7 +84,7 @@ app.get('/', (req, res) => {
             <span>Estimated Fee:</span>
             <span id="r-fee"></span>
           </div>
-          <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF Receipt</button>
+          <button class="print-btn" onclick="printAndClose()">🖨️ Print / Save PDF Receipt</button>
         </div>
       </div>
 
@@ -126,6 +126,14 @@ app.get('/', (req, res) => {
           btn.innerText = "📅 Confirm Appointment Now";
           btn.disabled = false;
         }
+
+        // 🖨️ Print karne ke 2 second baad Receipt Box apne aap band ho jayega!
+        function printAndClose() {
+          window.print();
+          setTimeout(() => {
+            document.getElementById('receipt').style.display = "none";
+          }, 2000);
+        }
       </script>
     </body>
     </html>
@@ -136,7 +144,7 @@ app.post('/api/book-appointment', async (req, res) => {
   try {
     const { name, number, service, slot } = req.body;
 
-    // 1. Automatic Fee & Token Calculation (100% Fast & Error-Free)
+    // 1. Automatic Fee & Token Calculation
     let fee = "₹500";
     if (service.includes("Root Canal")) fee = "₹2,500";
     else if (service.includes("Teeth Whitening")) fee = "₹1,200";
@@ -144,7 +152,7 @@ app.post('/api/book-appointment', async (req, res) => {
     const randomNum = Math.floor(100 + Math.random() * 900);
     const token = "#CDC-" + randomNum;
 
-    // 2. Send Data to Google Sheet CRM (Bina JSON parse error ke!)
+    // 2. Send Data to Google Sheet CRM
     await fetch(GOOGLE_SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
