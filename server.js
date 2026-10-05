@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// ✅ Aapka Naya Auto-Design Google Sheet Webhook URL jod diya gaya hai!
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxSn8SIkF4InKcvr7UJaas3HLq4nRpghwm0eiuDnJ_Y5CVD9ChqHvZ_aRxXIvIboBQN/exec";
+// ✅ Aapka Auto-Design Google Sheet Webhook URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxSn8SIkF4InKcvr7UJaas3HLq4nRpghwm0eiuDnJ_Y5CVD9ChqHvZ_aRxXIvlboBQN/exec";
 
 // 🌐 Client-Facing Professional Clinic Booking Website
 app.get('/', (req, res) => {
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
         input, select { width: 100%; padding: 11px; margin-top: 5px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; box-sizing: border-box; }
         button { width: 100%; padding: 14px; margin-top: 22px; background: #0284c7; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
         button:hover { background: #0369a1; }
-        .status-box { margin-top: 18px; padding: 12px; border-radius: 8px; display: none; font-size: 14px; text-align: center; }
+        .status-box { margin-top: 18px; padding: 12px; border-radius: 8px; display: none; font-size: 14px; text-align: center; transition: opacity 0.4s ease; }
       </style>
     </head>
     <body>
@@ -80,9 +80,13 @@ app.get('/', (req, res) => {
             status.style.background = "#dcfce7";
             status.style.color = "#166534";
             status.innerHTML = "✅ <b>Appointment Confirmed!</b><br>Saved with Auto-Design in Doctor's Google Sheet CRM!";
-            // 🧹 Form submit hote hi box khali ho jayenge!
             document.getElementById('name').value = "";
             document.getElementById('number').value = "";
+
+            // ⏱️ 4 Second baad green box apne aap band ho jayega!
+            setTimeout(() => {
+              status.style.display = "none";
+            }, 4000);
           } else {
             status.style.background = "#fee2e2";
             status.style.color = "#991b1b";
@@ -107,7 +111,7 @@ app.post('/api/book-appointment', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         number: number,
-        callType: name,
+        callType: name, // ✅ Sirf saaf Patient Name jayega
         message: service + " (" + slot + ")"
       })
     });
