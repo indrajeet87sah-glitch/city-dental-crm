@@ -136,7 +136,16 @@ app.post('/api/book-appointment', async (req, res) => {
   try {
     const { name, number, service, slot } = req.body;
 
-    const response = await fetch(GOOGLE_SHEET_URL, {
+    // 1. Automatic Fee & Token Calculation (100% Fast & Error-Free)
+    let fee = "₹500";
+    if (service.includes("Root Canal")) fee = "₹2,500";
+    else if (service.includes("Teeth Whitening")) fee = "₹1,200";
+
+    const randomNum = Math.floor(100 + Math.random() * 900);
+    const token = "#CDC-" + randomNum;
+
+    // 2. Send Data to Google Sheet CRM (Bina JSON parse error ke!)
+    await fetch(GOOGLE_SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -146,11 +155,10 @@ app.post('/api/book-appointment', async (req, res) => {
       })
     });
 
-    const sheetData = await response.json();
     res.json({ 
       success: true, 
-      token: sheetData.token || "#CDC-NEW", 
-      fee: sheetData.fee || "₹500" 
+      token: token, 
+      fee: fee 
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
