@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// ✅ Active Google Sheet CRM + Auto-Bill + Email Alert Webhook URL
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyjm49wiA8KW8Gv8KpQwG-jnapmBLe0hi-Ub6TqpsCiP2MEqtzEpEu2NsUhL5yjO1t0/exec";
+// ✅ Final Synced Google Sheet CRM Webhook URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxAAop1YSYbqU5gwcIrrJ0ngz-YCpbExGPkoFzQHPqck0DqpmQi5gsLJyvm3zxyEhzG/exec";
 
 app.get('/', (req, res) => {
   res.send(`
@@ -127,7 +127,6 @@ app.get('/', (req, res) => {
           btn.disabled = false;
         }
 
-        // 🖨️ Print karne ke 2 second baad Receipt Box apne aap band ho jayega!
         function printAndClose() {
           window.print();
           setTimeout(() => {
@@ -144,7 +143,6 @@ app.post('/api/book-appointment', async (req, res) => {
   try {
     const { name, number, service, slot } = req.body;
 
-    // 1. Automatic Fee & Token Calculation
     let fee = "₹500";
     if (service.includes("Root Canal")) fee = "₹2,500";
     else if (service.includes("Teeth Whitening")) fee = "₹1,200";
@@ -152,14 +150,15 @@ app.post('/api/book-appointment', async (req, res) => {
     const randomNum = Math.floor(100 + Math.random() * 900);
     const token = "#CDC-" + randomNum;
 
-    // 2. Send Data to Google Sheet CRM
     await fetch(GOOGLE_SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         number: number,
         callType: name,
-        message: service + " (" + slot + ")"
+        message: service + " (" + slot + ")",
+        token: token,
+        fee: fee
       })
     });
 
