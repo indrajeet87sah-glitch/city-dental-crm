@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// ✅ Aapka Naya Active Google Sheet Webhook URL
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxJNjlfz3n3OEbQ2iz49ICtId02Wc2McWj_GsgKVyo312XnJQyddj1hz4HW0fN3Iw/exec";
+// ✅ Level 1 Upgrade: Auto-Design CRM + Instant Doctor Email Alert URL
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyjm49wiA8KW8Gv8KpQwG-jnapmBLe0hi-Ub6TqpsCiP2MEqtzEpEu2NsUhL5yjO1t0/exec";
 
 app.get('/', (req, res) => {
   res.send(`
@@ -78,11 +78,10 @@ app.get('/', (req, res) => {
           if (data.success) {
             status.style.background = "#dcfce7";
             status.style.color = "#166534";
-            status.innerHTML = "✅ <b>Appointment Confirmed!</b><br>Saved with Auto-Design in Doctor's Google Sheet CRM!";
+            status.innerHTML = "✅ <b>Appointment Confirmed!</b><br>Saved in CRM & Instant Email Sent to Doctor!";
             document.getElementById('name').value = "";
             document.getElementById('number').value = "";
 
-            // ⏱️ 4 Second baad green box apne aap band ho jayega!
             setTimeout(() => {
               status.style.display = "none";
             }, 4000);
@@ -109,7 +108,7 @@ app.post('/api/book-appointment', async (req, res) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         number: number,
-        callType: name, // ✅ Sirf saaf Patient Name jayega
+        callType: name,
         message: service + " (" + slot + ")"
       })
     });
